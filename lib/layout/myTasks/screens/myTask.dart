@@ -33,9 +33,9 @@ class _MyTaskState extends State<MyTask> {
   Future<void> _fetchPage(int pageKey) async {
     var cubit = MyTasksCubit.get(context);
     try {
-      cubit.selectedPageNumber = pageKey;
       print('Page Key $pageKey');
       print("Current page: ${cubit.selectedPageNumber}");
+      cubit.selectedPageNumber = pageKey;
       await cubit.getMyTasks();
       final tasks = cubit.myTasks;
       final state = cubit.state;
