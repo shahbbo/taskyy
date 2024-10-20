@@ -39,7 +39,7 @@ class MyTasksCubit extends Cubit<MyTasksState> {
       print(url);
       var newTasks = (value.data as List).map((e) => TaskModel.fromJson(e)).toList();
       print(newTasks.toString());
-      if (url.contains('1')) {
+      if (url.contains('page=1')) {
         myTasks = newTasks;
         pagingController.itemList = myTasks;
       } else if ( newTasks.isNotEmpty && url.contains(r'page=([2-9]|[1-9][0-9]+)')) {
