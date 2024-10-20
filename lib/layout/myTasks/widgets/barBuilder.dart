@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:taskyy/layout/AddTask/cubit/add_task_cubit.dart';
 import 'package:taskyy/layout/myTasks/cubit/my_tasks_cubit.dart';
 
 class Barbuilder extends StatefulWidget {
@@ -22,9 +23,15 @@ class _BarbuilderState extends State<Barbuilder> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<MyTasksCubit, MyTasksState>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        var addState = AddTaskCubit.get(context).state;
+        if (addState is AddTaskSuccess){
+          _selectedIndex = 0;
+        }
+      },
       builder: (context, state) {
         var cubit = MyTasksCubit.get(context);
+        var addState = AddTaskCubit.get(context).state;
         return SizedBox(
           height: 60,
           child: ListView.builder(
@@ -39,17 +46,13 @@ class _BarbuilderState extends State<Barbuilder> {
                         _selectedIndex = index;
                       });
                       if (index == 0) {
-                        cubit.status = '';
-                        cubit.clearData();
+                        cubit.clearData('');
                       } else if (index == 1) {
-                        cubit.status = 'inprogress';
-                        cubit.clearData();
+                        cubit.clearData('inprogress');
                       } else if (index == 2) {
-                        cubit.status = 'waiting';
-                        cubit.clearData();
+                        cubit.clearData('waiting');
                       } else if (index == 3) {
-                        cubit.status = 'finished';
-                        cubit.clearData();
+                        cubit.clearData('finished');
                       }
                     },
                     style: ElevatedButton.styleFrom(

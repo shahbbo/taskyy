@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:qr_code_scanner_plus/qr_code_scanner_plus.dart';
 import 'package:taskyy/layout/AddTask/Screens/add_task.dart';
 import 'package:taskyy/layout/TaskDetails/screens/TaskDetails.dart';
+import 'package:taskyy/layout/logIn/cubit/log_in_cubit.dart';
 import 'package:taskyy/layout/myTasks/cubit/my_tasks_cubit.dart';
 import 'package:taskyy/layout/myTasks/widgets/barBuilder.dart';
 import 'package:taskyy/layout/myTasks/widgets/task_card_buildder.dart';
@@ -24,6 +25,7 @@ class _MyTaskState extends State<MyTask> {
         .addPageRequestListener((pageKey) {
       _fetchPage(pageKey);
     });
+    MyTasksCubit.get(context).clearData('');
     super.initState();
   }
   Future<void> _fetchPage(int pageKey) async {
@@ -60,7 +62,13 @@ class _MyTaskState extends State<MyTask> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<MyTasksCubit, MyTasksState>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        // var cubit = MyTasksCubit.get(context);
+        // var logState = LogInCubit().state;
+        // if (logState is LogInSuccessState) {
+        //   cubit.clearData('');
+        // }
+      },
       builder: (context, state) {
         var cubit = MyTasksCubit.get(context);
         return SafeArea(

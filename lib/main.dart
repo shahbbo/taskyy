@@ -61,7 +61,8 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         debugShowCheckedModeBanner: false,
-        home: SplashScreen(startWidget: startWidget),
+        home: WillPopScope(onWillPop: () async { return false; },
+        child: SplashScreen(startWidget: startWidget)),
       ),
     );
   }

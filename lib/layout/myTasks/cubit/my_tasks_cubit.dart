@@ -36,15 +36,21 @@ class MyTasksCubit extends Cubit<MyTasksState> {
     ).then((value) {
       print(url);
       var newTasks = (value.data as List).map((e) => TaskModel.fromJson(e)).toList();
+      print(newTasks.toString());
       if (selectedPageNumber == 1) {
         myTasks = newTasks;
         pagingController.itemList = myTasks;
-      } else {
-        myTasks.addAll(newTasks);
-        pagingController.appendPage(newTasks, selectedPageNumber);
+      } else if ( newTasks.isNotEmpty && selectedPageNumber > 1) {
+        newTasks.forEach((task) {
+          if (!myTasks.contains(task)) {
+            myTasks.add(task);
+          }
+        });
+        // myTasks.addAll(newTasks);
+        pagingController.appendPage(newTasks, selectedPageNumber + 1);
         print(myTasks);
       }
-      if (newTasks.isEmpty) {
+      if (newTasks.isEmpty && selectedPageNumber > 1) {
         emit(MyTasksSuccessState(lastPage: true));
       }
       else {
@@ -66,29 +72,19 @@ class MyTasksCubit extends Cubit<MyTasksState> {
       }
     });
   }
-  Future<void> clearData() async{
-    myTasks = [];
+  Future<void> clearData(
+      String newstatus,
+      ) async{
+    status = newstatus;
+    myTasks.clear();
     pagingController.itemList = [];
     selectedPageNumber = 1;
     pagingController.refresh();
     await getMyTasks();
   }
+
   Future<void>logOut(context)async{
     emit(LogoutLoading());
-    CacheHelper.clearData(key: 'ID').
-    then((value) {
-      CacheHelper.clearData(key: 'TokenId');
-      if (value == true) {
-        navigateFish(context,const LogIn());
-      }
-    });
-    if (tokenId != null || uid != null) {
-      tokenId = null;
-      uid = null;
-      debugPrint("token in side if condition: $tokenId uid : $uid");
-    }
-    debugPrint('token : $tokenId');
-    debugPrint('uid: $uid');
     tokenId = CacheHelper.getData(key: 'TokenId');
     await DioHelper.postData(
       url: AppStrings.endPointLogout,
@@ -96,6 +92,21 @@ class MyTasksCubit extends Cubit<MyTasksState> {
         'token': tokenId,
       },
     ).then((value) {
+      CacheHelper.clearData(key: 'ID').
+      then((value) {
+        CacheHelper.clearData(key: 'TokenId');
+        if (value == true) {
+          myTasks = [];
+          navigateFish(context,const LogIn());
+        }
+      });
+      if (tokenId != null || uid != null) {
+        tokenId = null;
+        uid = null;
+        debugPrint("token in side if condition: $tokenId uid : $uid");
+      }
+      debugPrint('token : $tokenId');
+      debugPrint('uid: $uid');
       emit(LogoutSuccess(value.data));
     }).catchError((onError) {
       if (onError is DioException) {

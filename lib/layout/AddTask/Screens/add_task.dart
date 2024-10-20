@@ -58,7 +58,7 @@ class _AddTaskState extends State<AddTask> {
             animationType: AnimationType.fromTop,
           ).show(context);
           Navigator.pop(context);
-          myCubit.pagingController.refresh();
+          myCubit.clearData('');
           addCubit.postImage == null;
         } else if (state is AddTaskError) {
           CherryToast.error(

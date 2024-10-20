@@ -9,6 +9,6 @@ class AppStrings{
 
   static const endPointProfile = 'auth/profile';
 
-  static const endPointLogout = 'auth/logout';
+  static const endPointLogout = 'auth/logout/';
 }
 
