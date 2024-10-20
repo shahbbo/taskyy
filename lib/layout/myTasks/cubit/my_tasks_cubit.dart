@@ -30,31 +30,32 @@ class MyTasksCubit extends Cubit<MyTasksState> {
   }
   Future<void> getMyTasks() async {
     emit(MyTasksLoadingState());
+    print('selectedPageNumber before Url: $selectedPageNumber');
     String url = _buildUrl(selectedPageNumber ,status);
     await DioHelper.getDate(
       url: url,
     ).then((value) {
+      print('selectedPageNumber in Url: $selectedPageNumber');
       print(url);
       var newTasks = (value.data as List).map((e) => TaskModel.fromJson(e)).toList();
       print(newTasks.toString());
-      if (selectedPageNumber == 1) {
+      if (url.contains('1')) {
         myTasks = newTasks;
         pagingController.itemList = myTasks;
-      } else if ( newTasks.isNotEmpty && selectedPageNumber > 1) {
+      } else if ( newTasks.isNotEmpty && url.contains(r'page=([2-9]|[1-9][0-9]+)')) {
         newTasks.forEach((task) {
           if (!myTasks.contains(task)) {
             myTasks.add(task);
           }
         });
-        // myTasks.addAll(newTasks);
-        pagingController.appendPage(newTasks, selectedPageNumber + 1);
+        pagingController.appendPage(newTasks, selectedPageNumber);
         print(myTasks);
       }
       if (newTasks.isEmpty && selectedPageNumber > 1) {
-        emit(MyTasksSuccessState(lastPage: true));
+        emit(MyTaskSuccessState(lastPage: true));
       }
       else {
-        emit(MyTasksSuccessState(lastPage: false));
+        emit(MyTaskSuccessState(lastPage: false));
       }
     }).catchError((onError) async {
       if (onError is DioException) {
@@ -79,7 +80,6 @@ class MyTasksCubit extends Cubit<MyTasksState> {
     myTasks.clear();
     pagingController.itemList = [];
     selectedPageNumber = 1;
-    pagingController.refresh();
     await getMyTasks();
   }
 

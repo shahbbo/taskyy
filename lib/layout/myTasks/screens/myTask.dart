@@ -1,3 +1,5 @@
+import 'package:cherry_toast/cherry_toast.dart';
+import 'package:cherry_toast/resources/arrays.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:qr_code_scanner_plus/qr_code_scanner_plus.dart';
@@ -32,11 +34,12 @@ class _MyTaskState extends State<MyTask> {
     var cubit = MyTasksCubit.get(context);
     try {
       cubit.selectedPageNumber = pageKey;
+      print('Page Key $pageKey');
       print("Current page: ${cubit.selectedPageNumber}");
       await cubit.getMyTasks();
       final tasks = cubit.myTasks;
       final state = cubit.state;
-      if (state is MyTasksSuccessState) {
+      if (state is MyTaskSuccessState) {
         if (state.lastPage) {
           cubit.pagingController.appendLastPage(tasks);
         } else {
@@ -63,11 +66,12 @@ class _MyTaskState extends State<MyTask> {
   Widget build(BuildContext context) {
     return BlocConsumer<MyTasksCubit, MyTasksState>(
       listener: (context, state) {
-        // var cubit = MyTasksCubit.get(context);
-        // var logState = LogInCubit().state;
-        // if (logState is LogInSuccessState) {
-        //   cubit.clearData('');
-        // }
+        if (state is LogoutSuccess) {
+          CherryToast.success(
+            title: const Text('Logout Successful'),
+            animationType: AnimationType.fromTop,
+          ).show(context);
+        }
       },
       builder: (context, state) {
         var cubit = MyTasksCubit.get(context);

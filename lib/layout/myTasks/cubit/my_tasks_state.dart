@@ -7,10 +7,10 @@ final class MyTasksInitial extends MyTasksState {}
 
 final class MyTasksLoadingState extends MyTasksState {}
 
-final class MyTasksSuccessState extends MyTasksState {
+final class MyTaskSuccessState extends MyTasksState {
 
   final bool lastPage;
-  MyTasksSuccessState({required this.lastPage});
+  MyTaskSuccessState({required this.lastPage});
 }
 
 final class MyTasksErrorState extends MyTasksState {

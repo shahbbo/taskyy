@@ -88,10 +88,8 @@ class _LogInState extends State<LogIn> {
                         SizedBox(
                           width: 335,
                           child: IntlPhoneField(
-                            disableLengthCheck: true,
                             controller: phoneController,
                             initialCountryCode: 'EG',
-                            focusNode: focusNode,
                             decoration: InputDecoration(
                               labelText: 'Phone Number',
                               border: OutlineInputBorder(
