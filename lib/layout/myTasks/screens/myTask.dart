@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:qr_code_scanner_plus/qr_code_scanner_plus.dart';
 import 'package:taskyy/layout/AddTask/Screens/add_task.dart';
 import 'package:taskyy/layout/TaskDetails/screens/TaskDetails.dart';
-import 'package:taskyy/layout/logIn/cubit/log_in_cubit.dart';
 import 'package:taskyy/layout/myTasks/cubit/my_tasks_cubit.dart';
 import 'package:taskyy/layout/myTasks/widgets/barBuilder.dart';
 import 'package:taskyy/layout/myTasks/widgets/task_card_buildder.dart';
@@ -59,8 +58,8 @@ class _MyTaskState extends State<MyTask> {
     super.dispose();
   }
 
-  Barcode? result;
-  QRViewController? controller;
+  Barcode? barCodeResult;
+  QRViewController? qrController;
 
   @override
   Widget build(BuildContext context) {
@@ -176,12 +175,12 @@ class _MyTaskState extends State<MyTask> {
                             child: QRView(
                               key: qrKey,
                               onQRViewCreated: (controller) {
-                                this.controller = controller;
+                                this.qrController = controller;
                                 controller.scannedDataStream
                                     .listen((event) {
                                   setState(() {
-                                    result = event;
-                                    print(result!.code);
+                                    barCodeResult = event;
+                                    print(barCodeResult!.code);
                                     controller.stopCamera();
                                     Navigator.pop(context);
                                     Navigator.push(
@@ -189,8 +188,7 @@ class _MyTaskState extends State<MyTask> {
                                         MaterialPageRoute(
                                             builder: (context) =>
                                                 Taskdetails(
-                                                  id: result!.code
-                                                      .toString(),
+                                                  id: barCodeResult!.code.toString(),
                                                 )));
                                   });
                                 });

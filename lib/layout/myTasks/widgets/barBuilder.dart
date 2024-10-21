@@ -31,7 +31,6 @@ class _BarbuilderState extends State<Barbuilder> {
       },
       builder: (context, state) {
         var cubit = MyTasksCubit.get(context);
-        var addState = AddTaskCubit.get(context).state;
         return SizedBox(
           height: 60,
           child: ListView.builder(

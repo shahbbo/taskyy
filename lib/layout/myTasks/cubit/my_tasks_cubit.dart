@@ -48,7 +48,7 @@ class MyTasksCubit extends Cubit<MyTasksState> {
             myTasks.add(task);
           }
         });
-        pagingController.appendPage(newTasks, selectedPageNumber);
+        pagingController.appendPage(newTasks, selectedPageNumber + 1);
         print(myTasks);
       }
       if (newTasks.isEmpty && selectedPageNumber > 1) {

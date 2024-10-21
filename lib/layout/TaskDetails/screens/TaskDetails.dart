@@ -1,12 +1,9 @@
-import 'package:cherry_toast/cherry_toast.dart';
-import 'package:cherry_toast/resources/arrays.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:taskyy/layout/EditTask/screens/edit_task.dart';
 import 'package:taskyy/layout/TaskDetails/cubit/get_task_by_id_cubit.dart';
 import 'package:taskyy/layout/myTasks/cubit/my_tasks_cubit.dart';
-import 'package:taskyy/models/taskModels/taskModel.dart';
 import 'package:taskyy/shared/resources/string_manager.dart';
 import 'package:taskyy/shared/resources/text_manager.dart';
 
@@ -21,23 +18,7 @@ class Taskdetails extends StatelessWidget {
     return BlocProvider(
       create: (context) => GetTaskByIdCubit()..getTaskById(id: id),
       child: BlocConsumer<GetTaskByIdCubit, GetTaskByIdState>(
-        listener: (context, state) {
-          // var getCubit = GetTaskByIdCubit.get(context);
-          // var myCubit = MyTasksCubit.get(context);
-          // var myState = myCubit.state;
-          // if (state is DeleteTaskSuccess) {
-          //   CherryToast.success(
-          //     title: const Text('Task Deleted Successfully'),
-          //     animationType: AnimationType.fromTop,
-          //   ).show(context);
-          //   myCubit.getMyTasks();
-          // } else if (state is DeleteTaskError) {
-          //   CherryToast.error(
-          //     title: Text(state.message),
-          //     animationType: AnimationType.fromTop,
-          //   ).show(context);
-          // }
-        },
+        listener: (context, state) {},
         builder: (context, state) {
           var getCubit = GetTaskByIdCubit.get(context);
           var myCubit = MyTasksCubit.get(context);
